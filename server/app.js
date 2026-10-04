@@ -58,7 +58,7 @@ export function createApp() {
     });
   }));
 
-  app.get('/api/settings', (req, res) => res.json({ settings: getSettings(), secrets: secretsInfo(), model_default: env.model }));
+  app.get('/api/settings', (req, res) => res.json({ settings: getSettings(), secrets: secretsInfo(), model_default: env.model, drive_redirect_uri: drive.REDIRECT_URI }));
   app.put('/api/settings', wrap((req, res) => {
     const patch = { ...req.body };
     for (const k of ['drive_inbox_folder', 'drive_processed_folder', 'drive_gestoria_folder']) {

@@ -13,7 +13,9 @@ const MIME_OK = ['application/pdf', 'image/jpeg', 'image/png'];
 export const isConfigured = () => !!(getSecret('google_client_id') && getSecret('google_client_secret'));
 export const isConnected = () => isConfigured() && !!getJsonSecret('google_tokens')?.refresh_token;
 
-const redirectUri = (req) => env.googleRedirectUri || `${req.protocol}://${req.get('host')}/api/drive/callback`;
+// URI fija (no depende de si entras por localhost o 127.0.0.1): es la que hay que registrar en Google Cloud.
+export const REDIRECT_URI = env.googleRedirectUri || `http://localhost:${env.port}/api/drive/callback`;
+const redirectUri = () => REDIRECT_URI;
 function oauth(redirect) {
   const c = new OAuth2Client(getSecret('google_client_id'), getSecret('google_client_secret'), redirect);
   const tokens = getJsonSecret('google_tokens');
