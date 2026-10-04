@@ -1,0 +1,22 @@
+{
+  "name": "metadatafacturas",
+  "version": "1.0.0",
+  "description": "Gestión automática de facturas de compra de una farmacia: IA → validación → archivo → Excel para la gestoría",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning server/index.js",
+    "test": "node --disable-warning=ExperimentalWarning --test test/*.test.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.131.0",
+    "@googleapis/drive": "^26.0.2",
+    "exceljs": "^4.4.0",
+    "express": "^5.2.1",
+    "google-auth-library": "^11.1.0",
+    "multer": "^2.4.0"
+  }
+}
