@@ -1,0 +1,35 @@
+FACTURAS FARMACIA - INSTRUCCIONES PARA WINDOWS
+==============================================
+
+ANTES DE EMPEZAR, ten a mano (por ejemplo, en un bloc de notas):
+  1. La clave de Anthropic (console.anthropic.com > API Keys). Recuerda recargar saldo en Billing.
+  2. (Opcional) Credenciales OAuth de Google Drive (Client ID y Client secret).
+  3. (Opcional) Un token de GitHub de solo lectura para poder ACTUALIZAR (el repositorio es privado).
+
+INSTALAR (solo la primera vez)
+  1. Doble clic en INSTALAR.bat
+     - Si Windows muestra "Windows protegio su PC", pulsa "Mas informacion" y despues "Ejecutar de todas formas".
+     - Si no tienes Node.js, lo instala solo. Si pide cerrar la ventana, ciérrala y vuelve a abrir INSTALAR.bat.
+  2. Cuando lo pida, pega la clave de Anthropic (clic derecho del raton = pegar) y pulsa Intro.
+  3. Google Drive y token de GitHub son opcionales: Intro para saltar.
+
+USAR (cada vez)
+  1. Doble clic en ARRANCAR.bat. Se abre el navegador en http://localhost:3000
+  2. La primera vez, en Configuracion rellena los DATOS DE LA FARMACIA (NIF/CIF incluido)
+     y, si quieres, la carpeta de entrada de facturas de este ordenador.
+  3. Deja la ventana negra abierta (puedes minimizarla). Si la cierras, la app se para.
+  4. Arrastra facturas a la pantalla: se procesan solas. Solo las marcadas CONVIENE REVISAR
+     piden atencion: pulsa la lupa para ver la factura original.
+
+ACTUALIZAR (cuando Claude te diga que hay una version nueva)
+  1. Cierra la ventana negra de la app.
+  2. Doble clic en ACTUALIZAR.bat
+  3. Doble clic en ARRANCAR.bat
+  (Tus claves, la configuracion y las facturas guardadas en la carpeta "data" se conservan.)
+
+IMPORTANTE
+  - El ordenador debe estar encendido y sin suspenderse mientras quieras que procese facturas.
+  - Para usar Google Drive, abre siempre la app como http://localhost:3000 (la misma direccion
+    que pusiste como URI de redireccion en Google Cloud).
+  - Copias de seguridad: guarda de vez en cuando la carpeta "data" (base de datos y archivo).
+  - Nunca compartas el fichero .env: contiene tus claves.

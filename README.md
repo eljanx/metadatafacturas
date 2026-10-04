@@ -18,6 +18,16 @@ node --disable-warning=ExperimentalWarning scripts/demo.js   # demo con IA SIMUL
 
 Requiere Node ≥ 22.13 (usa `node:sqlite`, sin dependencias nativas). Primer uso: rellena **Configuración → Datos de la farmacia** (sin NIF/CIF no se puede validar el destinatario y todo quedará en CONVIENE REVISAR) y la API Key.
 
+## Windows: INSTALAR / ACTUALIZAR / ARRANCAR
+
+Tres `.bat` con doble clic (instrucciones para la persona usuaria en `LEEME-WINDOWS.txt`):
+
+- **INSTALAR.bat** — instala Node.js si falta (winget), `npm install` y lanza el asistente `scripts/configurar.js`, que pide y **comprueba** la API Key de Anthropic, opcionalmente las credenciales de Google Drive y un token de GitHub, y los guarda en `.env` (fuera de git).
+- **ACTUALIZAR.bat** — descarga la última versión de la rama y copia los ficheros **sin tocar** `.env`, `data/` ni `node_modules/`, y reinstala dependencias. El repositorio es **privado**, por eso usa el `GITHUB_TOKEN` de `.env` (fine-grained, solo lectura de *Contents*); si el repositorio se hiciera público no haría falta.
+- **ARRANCAR.bat** — arranca el servidor, abre `http://localhost:3000` y lo reinicia solo si se cae. Hay que dejar la ventana abierta.
+
+> Los `.bat` no se han podido ejecutar en Windows desde el entorno de desarrollo (sí el asistente y la carga de `.env` en Linux). Si algo falla en tu equipo, copia el mensaje de la ventana.
+
 ## Fuentes de facturas
 
 | Fuente | Cómo funciona |

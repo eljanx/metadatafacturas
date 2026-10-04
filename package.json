@@ -8,8 +8,9 @@
     "node": ">=22.13"
   },
   "scripts": {
-    "start": "node --disable-warning=ExperimentalWarning server/index.js",
-    "test": "node --disable-warning=ExperimentalWarning --test test/*.test.js"
+    "start": "node --disable-warning=ExperimentalWarning --env-file-if-exists=.env server/index.js",
+    "test": "node --disable-warning=ExperimentalWarning --test test/*.test.js",
+    "configurar": "node scripts/configurar.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.131.0",
