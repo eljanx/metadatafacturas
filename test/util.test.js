@@ -35,3 +35,10 @@ test('normalización de números y fechas', () => {
   assert.equal(toIsoDate('05/03/2026'), '2026-03-05');
   assert.equal(toIsoDate('2026-02-30'), null);
 });
+
+test('Client ID de Google: formato', async () => {
+  const { isGoogleClientId } = await import('../server/util.js');
+  assert.equal(isGoogleClientId('123456789012-abc_def.apps.googleusercontent.com'), true);
+  assert.equal(isGoogleClientId('GOCSPX-secreto'), false);
+  assert.equal(isGoogleClientId(''), false);
+});

@@ -14,7 +14,7 @@ import * as drive from './drive.js';
 import { hasApiKey } from './extractor.js';
 import { scanAll, lastScanInfo } from './watcher.js';
 import { buildWorkbook } from './export.js';
-import { extractDriveFolderId, normalizeTaxId } from './util.js';
+import { extractDriveFolderId, normalizeTaxId, isGoogleClientId } from './util.js';
 import { log, redact } from './log.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -36,7 +36,8 @@ function basicAuth(req, res, next) {
 // Los secretos nunca salen del backend: la API solo informa de si están configurados.
 const secretsInfo = () => ({
   anthropic_api_key: { configured: !!getSecret('anthropic_api_key'), source: secretSource('anthropic_api_key') },
-  google_client_id: { configured: !!getSecret('google_client_id'), source: secretSource('google_client_id') },
+  // El Client ID no es secreto (viaja en la URL de Google): se muestra para poder compararlo con Google Cloud.
+  google_client_id: { configured: !!getSecret('google_client_id'), source: secretSource('google_client_id'), value: getSecret('google_client_id'), valid: isGoogleClientId(getSecret('google_client_id')) },
   google_client_secret: { configured: !!getSecret('google_client_secret'), source: secretSource('google_client_secret') },
 });
 
@@ -68,6 +69,9 @@ export function createApp() {
     pipeline.kick();
   }));
   app.put('/api/secrets', (req, res) => {
+    if (typeof req.body?.google_client_id === 'string' && req.body.google_client_id.trim() && !isGoogleClientId(req.body.google_client_id)) {
+      return res.status(400).json({ error: 'Ese Client ID no tiene el formato de Google (123456789-xxxx.apps.googleusercontent.com). ¿Has pegado el secreto o el nombre del cliente?' });
+    }
     for (const k of ['anthropic_api_key', 'google_client_id', 'google_client_secret']) {
       if (typeof req.body?.[k] === 'string') setSecret(k, req.body[k].trim());
     }

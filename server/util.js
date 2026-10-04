@@ -79,3 +79,6 @@ export function sanitizeFilename(s, max = 60) {
   return String(s ?? '').normalize('NFD').replace(/[̀-ͯ]/g, '')
     .replace(/[^\w.\- ]+/g, '').trim().replace(/\s+/g, '_').slice(0, max);
 }
+
+/** Un Client ID de Google OAuth tiene la forma 123456789-abc…xyz.apps.googleusercontent.com */
+export const isGoogleClientId = (v) => /^\d+-[\w-]+\.apps\.googleusercontent\.com$/.test(String(v || '').trim());

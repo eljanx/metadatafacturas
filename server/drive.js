@@ -4,7 +4,7 @@ import { OAuth2Client } from 'google-auth-library';
 import { drive as driveApi } from '@googleapis/drive';
 import { env } from './config.js';
 import { getSecret, getJsonSecret, setSecret } from './secrets.js';
-import { extractDriveFolderId } from './util.js';
+import { extractDriveFolderId, isGoogleClientId } from './util.js';
 
 export { extractDriveFolderId };
 const SCOPES = ['https://www.googleapis.com/auth/drive'];
@@ -24,6 +24,7 @@ function oauth(redirect) {
 const states = new Map();
 export function authUrl(req) {
   if (!isConfigured()) throw new Error('Faltan GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET.');
+  if (!isGoogleClientId(getSecret('google_client_id'))) throw new Error('El Client ID guardado no tiene el formato de Google (123456789-xxxx.apps.googleusercontent.com): corrígelo en Configuración.');
   const state = crypto.randomBytes(16).toString('hex');
   states.set(state, Date.now());
   for (const [s, t] of states) if (Date.now() - t > 10 * 60e3) states.delete(s);

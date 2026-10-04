@@ -5,6 +5,7 @@ import path from 'node:path';
 import readline from 'node:readline/promises';
 import { fileURLToPath } from 'node:url';
 import Anthropic from '@anthropic-ai/sdk';
+import { isGoogleClientId } from '../server/util.js';
 
 const ENV = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', '.env');
 const titulo = (t) => console.log(`\n${'='.repeat(60)}\n  ${t}\n${'='.repeat(60)}`);
@@ -61,7 +62,12 @@ for (;;) {
 
 titulo('2/3  GOOGLE DRIVE (opcional)');
 console.log('Solo si vas a usar carpetas de Google Drive. Necesitas crear en Google Cloud unas credenciales OAuth\n(«Aplicación web») con esta URI de redirección:  http://localhost:3000/api/drive/callback\nSi no lo vas a usar ahora, pulsa Intro en las dos preguntas (se puede añadir después).\n');
-env.GOOGLE_CLIENT_ID = await preguntar('Google Client ID:', env.GOOGLE_CLIENT_ID);
+for (;;) {
+  env.GOOGLE_CLIENT_ID = await preguntar('Google Client ID (termina en .apps.googleusercontent.com):', env.GOOGLE_CLIENT_ID);
+  if (!env.GOOGLE_CLIENT_ID || isGoogleClientId(env.GOOGLE_CLIENT_ID)) break;
+  console.log('✘ Eso no parece un Client ID de Google (debe ser como 123456789-xxxx.apps.googleusercontent.com). Cópialo entero desde Google Cloud.\n');
+  delete env.GOOGLE_CLIENT_ID;
+}
 if (env.GOOGLE_CLIENT_ID) env.GOOGLE_CLIENT_SECRET = await preguntar('Google Client secret:', env.GOOGLE_CLIENT_SECRET, { obligatorio: true });
 
 titulo('3/3  ACTUALIZACIONES (opcional)');
