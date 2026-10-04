@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Facturas Farmacia</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <h1>💊 Facturas de compra</h1>
+  <nav id="tabs">
+    <button data-tab="facturas" class="active">Facturas</button>
+    <button data-tab="proveedores">Proveedores</button>
+    <button data-tab="config">Configuración</button>
+  </nav>
+  <div id="chips" class="chips"></div>
+</header>
+<div id="banners"></div>
+
+<main>
+  <section id="tab-facturas">
+    <div id="kpis" class="kpis"></div>
+    <div id="drop" class="drop" tabindex="0">
+      <strong>Arrastra aquí tus facturas</strong> o <label class="link">selecciónalas<input id="file" type="file" multiple accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" hidden></label>
+      <span class="muted">PDF, JPG o PNG · se procesan solas</span>
+    </div>
+    <form id="filters" class="filters">
+      <input name="q" type="search" placeholder="Buscar proveedor, CIF, nº factura…">
+      <select name="review"><option value="">Revisión: todas</option><option value="CONVIENE_REVISAR">Conviene revisar</option><option value="OK_IA">OK IA</option><option value="VALIDADA_MANUALMENTE">Validada manualmente</option></select>
+      <select name="tech"><option value="">Estado técnico: todos</option><option>PENDIENTE</option><option>PROCESANDO</option><option>PROCESADO</option><option>ERROR</option><option value="POSIBLE_DUPLICADO">POSIBLE DUPLICADO</option></select>
+      <select name="category_id"><option value="">Categoría: todas</option></select>
+      <label>Desde <input name="from" type="date"></label>
+      <label>Hasta <input name="to" type="date"></label>
+      <span id="supplierFilter"></span>
+      <button type="button" id="clear" class="ghost">Limpiar</button>
+      <span class="spacer"></span>
+      <button type="button" id="scan" class="ghost" title="Buscar nuevas facturas en las carpetas configuradas">↻ Sincronizar carpetas</button>
+      <button type="button" id="xlsx" class="primary">⬇ Excel gestoría</button>
+      <button type="button" id="xlsxDrive" class="ghost" hidden>☁ Excel → Drive gestoría</button>
+    </form>
+    <div class="tablewrap">
+      <table id="table">
+        <thead><tr><th>Revisión</th><th>Fecha</th><th>Nº factura</th><th>Proveedor</th><th class="num">Base</th><th class="num">IVA</th><th class="num">Recargo</th><th class="num">Total</th><th>Categoría</th><th>Estado</th><th>Origen</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <p id="empty" class="muted center" hidden>Todavía no hay facturas con estos filtros.</p>
+    </div>
+    <p class="center"><button id="more" class="ghost" hidden>Cargar más</button></p>
+  </section>
+
+  <section id="tab-proveedores" hidden>
+    <div class="tablewrap"><table id="suppliers"><thead><tr><th>Proveedor</th><th>CIF</th><th>Ciudad</th><th class="num">Facturas</th><th class="num">Total</th><th class="num">A revisar</th></tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <section id="tab-config" hidden>
+    <div id="config"></div>
+  </section>
+</main>
+
+<aside id="drawer" class="drawer" hidden></aside>
+<div id="modal" class="modal" hidden></div>
+<div id="toasts" class="toasts"></div>
+<script type="module" src="app.js"></script>
+</body>
+</html>
